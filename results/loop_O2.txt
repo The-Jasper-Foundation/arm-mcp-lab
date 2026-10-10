@@ -1,0 +1,61 @@
+{"status":"ok","code":0,"stdout":"Iterations:        100
+Instructions:      600
+Total Cycles:      209
+Total uOps:        800
+
+Dispatch Width:    16
+uOps Per Cycle:    3.83
+IPC:               2.87
+Block RThroughput: 0.7
+
+
+Instruction Info:
+[1]: #uOps
+[2]: Latency
+[3]: RThroughput
+[4]: MayLoad
+[5]: MayStore
+[6]: HasSideEffects (U)
+
+[1]    [2]    [3]    [4]    [5]    [6]    Instructions:
+ 3      6     0.67    *                   ldp\tq2, q3, [x8, #-16]
+ 1      1     0.17                        subs\tx11, x11, #8
+ 1      1     0.17                        add\tx8, x8, #32
+ 1      2     0.25                        add\tv0.4s, v2.4s, v0.4s
+ 1      2     0.25                        add\tv1.4s, v3.4s, v1.4s
+ 1      1     0.50                        b.ne\t.LBB0_5
+
+
+Resources:
+[0.0] - V2UnitB
+[0.1] - V2UnitB
+[1.0] - V2UnitD
+[1.1] - V2UnitD
+[2]   - V2UnitL2
+[3.0] - V2UnitL01
+[3.1] - V2UnitL01
+[4]   - V2UnitM0
+[5]   - V2UnitM1
+[6]   - V2UnitS0
+[7]   - V2UnitS1
+[8]   - V2UnitS2
+[9]   - V2UnitS3
+[10]  - V2UnitV0
+[11]  - V2UnitV1
+[12]  - V2UnitV2
+[13]  - V2UnitV3
+
+
+Resource pressure per iteration:
+[0.0]  [0.1]  [1.0]  [1.1]  [2]    [3.0]  [3.1]  [4]    [5]    [6]    [7]    [8]    [9]    [10]   [11]   [12]   [13]   
+0.50   0.50    -      -     0.22   0.88   0.90   0.33   0.33   0.33   0.33   0.34   0.34   0.50   0.50   0.50   0.50   
+
+Resource pressure by instruction:
+[0.0]  [0.1]  [1.0]  [1.1]  [2]    [3.0]  [3.1]  [4]    [5]    [6]    [7]    [8]    [9]    [10]   [11]   [12]   [13]   Instructions:
+ -      -      -      -     0.22   0.88   0.90    -      -      -      -      -      -      -      -      -      -     ldp\tq2, q3, [x8, #-16]
+ -      -      -      -      -      -      -      -     0.33    -     0.33    -     0.34    -      -      -      -     subs\tx11, x11, #8
+ -      -      -      -      -      -      -     0.33    -     0.33    -     0.34    -      -      -      -      -     add\tx8, x8, #32
+ -      -      -      -      -      -      -      -      -      -      -      -      -     0.50    -     0.50    -     add\tv0.4s, v2.4s, v0.4s
+ -      -      -      -      -      -      -      -      -      -      -      -      -      -     0.50    -     0.50   add\tv1.4s, v3.4s, v1.4s
+0.50   0.50    -      -      -      -      -      -      -      -      -      -      -      -      -      -      -     b.ne\t.LBB0_5
+","stderr":"","cmd":["llvm-mca","/workspace/samples/loop_O2.s","--mcpu","neoverse-v2","--mtriple=aarch64"]}

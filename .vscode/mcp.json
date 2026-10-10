@@ -1,0 +1,16 @@
+{
+    "servers": {
+        "arm-mcp": {
+            "type": "stdio",
+            "command": "docker",
+            "args": [
+                "run",
+                "--rm",
+                "-i",
+                "-v",
+                "${workspaceFolder}:/workspace",
+                "armlimited/arm-mcp:latest"
+            ]
+        }
+    }
+}
