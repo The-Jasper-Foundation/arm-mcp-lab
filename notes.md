@@ -78,3 +78,29 @@ IPC went down but the code got 12× faster per element, because each vector inst
 
 
   - armv9.8-a on armv8-a clang (trunk): accepted (10 Oct 22:00 2026)
+
+
+**Create Issue?**
+Title: mca tool: `triple` is passed as `--triple`, which llvm-mca rejects
+
+**What happens**
+Calling the `mca` tool with `triple` set (e.g. `aarch64`) fails:
+status "error", code 1,
+stderr: llvm-mca: Unknown command line argument '--triple'.
+
+**Cause**
+mcp-local/utils/llvm_mca_tool.py, line 26:
+    cmd += ["--triple", triple]
+llvm-mca's option is `--mtriple` (it suggests this itself:
+"Did you mean '--mtriple'?").
+
+**To reproduce**
+armlimited/arm-mcp:latest via MCP Inspector, mca tool:
+input_path=/workspace/samples/sum_O0.s, triple=aarch64, cpu=neoverse-v2
+
+**Workaround**
+Leave `triple` empty and pass ["--mtriple=aarch64"] in extra_args.
+
+**Suggested fix**
+Change "--triple" to "--mtriple" on line 26. There doesn't appear to be a
+test covering `triple`, so one might be worth adding.
