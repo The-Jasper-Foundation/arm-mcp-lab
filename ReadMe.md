@@ -19,7 +19,7 @@ results against the source code.
 3. Generated AArch64 assembly on Compiler Explorer and saved it in `samples/`
 
 ## Findings
-![triple error](docs/triple-error.png)
+![march-trunk-9.8](docs/march-trunk-9.8.png)
 
 ### 1. The `mca` tool's `triple` field always fails
 Setting `triple` returns `status: error` with
