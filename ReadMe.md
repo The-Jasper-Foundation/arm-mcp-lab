@@ -20,7 +20,7 @@ results against the source code.
 3. Generated AArch64 assembly on Compiler Explorer and saved it in `samples/`
 
 ## Findings
-![march-trunk-9.8](docs/march-trunk-9.8.png)
+
 
 ### 1. The `mca` tool's `triple` field always fails
 Setting `triple` returns `status: error` with
@@ -32,7 +32,7 @@ Workaround: leave `triple` empty and pass `["--mtriple=aarch64"]` in `extra_args
 
 ### 2. The bundled llvm-mca can't model Neoverse V3
 `cpu: neoverse-v3` fails: "'neoverse-v3' is not a recognized processor".
-The image installs LLVM 18, which predates V3 support. V3 is the core in
+Uses an older LLVM which predates V3 support. V3 is the core in
 Arm's AGI CPU, so the tool can't currently model Arm's newest server core.
 I used `neoverse-v2` instead.
 
@@ -63,6 +63,7 @@ the CPU is, not how much useful work it does.
   other, which flatters the -O0 code. The real gap is probably larger
 - Compiler Explorer: armv8-a clang 22.1.0 was the first release to accept
   `-march=armv9.7-a`; clang trunk accepted `-march=armv9.8-a` (10 Oct 2026)
+  ![march-trunk-9.8](docs/march-trunk-9.8.png)
 
 ## What I'd try next
 - Report the `triple` bug to the arm/mcp repository
