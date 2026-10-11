@@ -6,7 +6,7 @@ results against the source code.
 
 ## What I ran
 - `armlimited/arm-mcp:latest` (arm64 image) on an Apple Silicon Mac
-   Listed its five tools via MCP Inspector v2.10.1 over stdio
+- Listed its five tools via MCP Inspector v2.10.1 over stdio
   (knowledge_base_search, check_image, skopeo, migrate_ease_scan, mca)
   and tested mca in depth
 - Main focus: the `mca` tool (llvm-mca), comparing a simple C loop
