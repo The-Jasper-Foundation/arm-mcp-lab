@@ -6,8 +6,9 @@ results against the source code.
 
 ## What I ran
 - `armlimited/arm-mcp:latest` (arm64 image) on an Apple Silicon Mac
-- Called its five tools directly via MCP Inspector v2.10.1 over stdio:
-  knowledge_base_search, check_image, skopeo, migrate_ease_scan, mca
+- Listed its five tools via MCP Inspector v2.10.1 over stdio
+  (knowledge_base_search, check_image, skopeo, migrate_ease_scan, mca)
+  and tested `mca` in depth
 - Main focus: the `mca` tool (llvm-mca), comparing a simple C loop
   compiled at `-O0` and `-O2` with armv8-a clang 19.1.0
 
@@ -19,20 +20,22 @@ results against the source code.
 3. Generated AArch64 assembly on Compiler Explorer and saved it in `samples/`
 
 ## Findings
-![march-trunk-9.8](docs/march-trunk-9.8.png)
 
-### 1. The `mca` tool's `triple` field always fails
+### 1. The `mca` tool's `triple` field always fails (fix submitted)
 Setting `triple` returns `status: error` with
-`llvm-mca: Unknown command line argument '--triple'`.
+`llvm-mca: Unknown command line argument '--triple'`, followed by
+`Too many positional arguments specified!` (because the flag isn't
+recognised, the triple value is read as a second input file).
 The `cmd` field in the response shows why: the server passes `--triple`,
 but llvm-mca's flag is `--mtriple`
 (`mcp-local/utils/llvm_mca_tool.py`, line 26).
 Workaround: leave `triple` empty and pass `["--mtriple=aarch64"]` in `extra_args`.
+**Fix submitted upstream:** [arm/mcp PR #228](https://github.com/arm/mcp/pull/228)
 
 ### 2. The bundled llvm-mca can't model Neoverse V3
 `cpu: neoverse-v3` fails: "'neoverse-v3' is not a recognized processor".
-The image installs LLVM 18, which predates V3 support. V3 is the core in
-Arm's AGI CPU, so the tool can't currently model Arm's newest server core.
+Uses an older LLVM which predates V3 support. V3 is the core in Arm's
+AGI CPU, so the tool can't currently model Arm's newest server core.
 I used `neoverse-v2` instead.
 
 ### 3. Measuring the whole function gives a misleading answer
@@ -63,7 +66,8 @@ the CPU is, not how much useful work it does.
 - Compiler Explorer: armv8-a clang 22.1.0 was the first release to accept
   `-march=armv9.7-a`; clang trunk accepted `-march=armv9.8-a` (10 Oct 2026)
 
+![march-trunk-9.8](docs/march-trunk-9.8.png)
+
 ## What I'd try next
-- Report the `triple` bug to the arm/mcp repository
 - Re-run the comparison with llvm-mca's memory-dependency modelling on
 - Try the same analysis on a real loop from one of my own projects
