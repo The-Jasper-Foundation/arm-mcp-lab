@@ -65,7 +65,8 @@ the CPU is, not how much useful work it does.
   `-march=armv9.7-a`; clang trunk accepted `-march=armv9.8-a` (10 Oct 2026)
   ![march-trunk-9.8](docs/march-trunk-9.8.png)
 
+* Submitted a fix: [https://github.com/arm/mcp/pull/228] * 
+
 ## What I'd try next
-- Report the `triple` bug to the arm/mcp repository
 - Re-run the comparison with llvm-mca's memory-dependency modelling on
 - Try the same analysis on a real loop from one of my own projects
